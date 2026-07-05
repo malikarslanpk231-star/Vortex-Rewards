@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VortexRewards Portal</title>
+    <!-- Tailwind CSS for high-fidelity styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f1f5f9;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 16px 16px;
+        }
+        .step-locked {
+            opacity: 0.55;
+            pointer-events: none;
+            filter: grayscale(60%);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col items-center p-4">
+
+    <!-- Main Mobile Container (Modern White & Crisp Shadows) -->
+    <div class="w-full max-w-md bg-white rounded-[32px] border border-slate-200/80 shadow-2xl overflow-hidden mb-8 transition-all">
+        
+        <!-- Header Section with Larger Transparent Logo (Athora Para Logo) -->
+        <div class="p-6 text-center flex flex-col items-center border-b border-slate-100 bg-slate-50/50">
+            <img src="https://i.ibb.co/V0yMRLHn/890-removebg-preview.png" alt="VortexRewards Logo" class="h-28 w-auto mb-1 object-contain transition-transform hover:scale-105 duration-200" onerror="this.src='https://placehold.co/200x200/0b3c95/ffffff?text=VortexRewards'">
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 mt-2">VortexRewards</h1>
+            <p class="text-xs text-slate-500 font-medium tracking-wide">Your Ultimate Digital Rewards Portal</p>
+        </div>
+
+        <!-- Premium Giveaway Banner -->
+        <div class="relative w-full aspect-[16/9] bg-slate-100 overflow-hidden border-b border-slate-100">
+            <img src="https://i.ibb.co/HfQKqBxK/1783274371336.png" alt="PS5, Flagship Smartphone and Cash Giveaway" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/800x450/0b3c95/ffffff?text=MEGA+GIVEAWAY+PS5+IPHONE'">
+            <div class="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Giveaway Description -->
+        <div class="p-5">
+            <div class="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 rounded-2xl p-4 border border-blue-100 text-center mb-6">
+                <span class="inline-flex items-center gap-1.5 bg-blue-600 text-white font-bold px-3 py-1 rounded-full text-[10px] uppercase tracking-wider animate-pulse">
+                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span> Live Mega Draw
+                </span>
+                <h2 class="text-xl font-bold mt-3 text-slate-900">Win a PS5, Premium Phone & High Cash Prizes!</h2>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">Complete all 4 secure ticket verification steps below to generate and activate your VIP entry ticket.</p>
+            </div>
+
+            <!-- Steps Progress Bar -->
+            <div class="mb-5 px-1">
+                <div class="flex justify-between text-xs text-slate-500 mb-2 font-bold">
+                    <span>Your Verification Progress</span>
+                    <span id="progress-text" class="text-blue-600">0% Complete</span>
+                </div>
+                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                    <div id="progress-bar" class="bg-gradient-to-r from-blue-600 to-indigo-600 h-full w-0 rounded-full transition-all duration-500"></div>
+                </div>
+            </div>
+
+            <!-- Task Locker Steps Grid (Clean Light Cards) -->
+            <div class="space-y-4">
+                
+                <!-- Step 1 -->
+                <div id="step-container-1" class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Step 01</span>
+                        <span id="step-status-1" class="text-[10px] bg-blue-100 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-full font-extrabold">READY TO CLAIM</span>
+                    </div>
+                    <p class="text-sm text-slate-800 font-bold mb-3">Claim and verify entry ticket token #1</p>
+                    <button id="step-btn-1" onclick="startStep(1)" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/15 transition active:scale-[0.98] duration-150 flex items-center justify-center gap-2">
+                        <span>CLAIM TICKET 01</span>
+                    </button>
+                </div>
+
+                <!-- Step 2 -->
+                <div id="step-container-2" class="step-locked bg-slate-50 rounded-2xl p-4 border border-slate-200/80 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Step 02</span>
+                        <span id="step-status-2" class="text-[10px] bg-slate-200 text-slate-500 px-2.5 py-0.5 rounded-full font-bold">LOCKED</span>
+                    </div>
+                    <p class="text-sm text-slate-500 font-bold mb-3">Claim and verify entry ticket token #2</p>
+                    <button id="step-btn-2" onclick="startStep(2)" class="w-full py-3 bg-slate-200 text-slate-400 font-bold rounded-xl cursor-not-allowed flex items-center justify-center gap-2" disabled>
+                        <span>LOCKED</span>
+                    </button>
+                </div>
+
+                <!-- Step 3 -->
+                <div id="step-container-3" class="step-locked bg-slate-50 rounded-2xl p-4 border border-slate-200/80 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Step 03</span>
+                        <span id="step-status-3" class="text-[10px] bg-slate-200 text-slate-500 px-2.5 py-0.5 rounded-full font-bold">LOCKED</span>
+                    </div>
+                    <p class="text-sm text-slate-500 font-bold mb-3">Claim and verify entry ticket token #3</p>
+                    <button id="step-btn-3" onclick="startStep(3)" class="w-full py-3 bg-slate-200 text-slate-400 font-bold rounded-xl cursor-not-allowed flex items-center justify-center gap-2" disabled>
+                        <span>LOCKED</span>
+                    </button>
+                </div>
+
+                <!-- Step 4 -->
+                <div id="step-container-4" class="step-locked bg-slate-50 rounded-2xl p-4 border border-slate-200/80 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Step 04</span>
+                        <span id="step-status-4" class="text-[10px] bg-slate-200 text-slate-500 px-2.5 py-0.5 rounded-full font-bold">LOCKED</span>
+                    </div>
+                    <p class="text-sm text-slate-500 font-bold mb-3">Secure final verification security protocol</p>
+                    <button id="step-btn-4" onclick="startStep(4)" class="w-full py-3 bg-slate-200 text-slate-400 font-bold rounded-xl cursor-not-allowed flex items-center justify-center gap-2" disabled>
+                        <span>LOCKED</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Submit Button (Hidden until steps are complete) -->
+            <button id="submit-ticket-btn" onclick="openFormModal()" class="hidden w-full mt-6 py-4 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-600 hover:to-yellow-500 text-slate-950 font-extrabold text-lg rounded-2xl shadow-xl shadow-yellow-500/20 transform transition active:scale-95 duration-150 flex items-center justify-center gap-2 animate-bounce">
+                <span>SUBMIT ENTRY TICKET</span>
+            </button>
+
+        </div>
+
+        <!-- Social Proof / Live Winners Section (High Trust) -->
+        <div class="p-6 bg-slate-50 border-t border-slate-150">
+            <h3 class="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping"></span>
+                Recent Winners Roll
+            </h3>
+            <div class="space-y-2 text-xs text-slate-700">
+                <div class="flex justify-between py-1.5 border-b border-slate-200">
+                    <span class="font-bold text-slate-800">Zainab M. (Sahiwal)</span>
+                    <span class="text-green-600 font-bold">+1,000 PKR Cash</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-slate-200">
+                    <span class="font-bold text-slate-800">Muhammad A. (Lahore)</span>
+                    <span class="text-green-600 font-bold">+500 PKR Cash</span>
+                </div>
+                <div class="flex justify-between py-1.5">
+                    <span class="font-bold text-slate-800">Arham K. (Karachi)</span>
+                    <span class="text-green-600 font-bold">+100 PKR Cash</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Registration Form Modal (Light Vibe) -->
+    <div id="form-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-sm p-6 shadow-2xl relative">
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Congratulations! 🎉</h3>
+            <p class="text-xs text-slate-500 mb-4">Enter your profile details below to bind your verified tickets to your account.</p>
+            
+            <!-- In-App Custom Validation Warning -->
+            <div id="error-alert" class="hidden bg-red-50 border border-red-100 text-red-600 text-xs rounded-xl p-3 mb-4 font-bold">
+                ⚠️ Please fill in all the required fields correctly!
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Your Full Name</label>
+                    <input type="text" id="user-name" placeholder="e.g. Ali Ahmed" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition placeholder:text-slate-400 text-sm font-medium">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">WhatsApp Number</label>
+                    <input type="tel" id="user-phone" placeholder="e.g. 03XXXXXXXXX" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition placeholder:text-slate-400 text-sm font-medium">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Country / Region</label>
+                    <input type="text" id="user-country" value="Pakistan" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition text-sm font-bold">
+                </div>
+                <button onclick="submitFinalForm()" class="w-full mt-2 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl transition shadow-lg shadow-blue-500/10 active:scale-95 duration-100">
+                    Complete Registration
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Generated Success Screen (Clean Light Layout) -->
+    <div id="success-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-sm p-6 text-center shadow-2xl relative">
+            <div class="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-950 mb-1.5">Ticket Successfully Active!</h3>
+            <p class="text-xs text-slate-600 mb-5 leading-relaxed">Your data has been secured. Your official entry coupon is active in the drawing list.</p>
+            
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-5">
+                <span class="block text-[10px] text-slate-500 uppercase tracking-wider mb-0.5 font-bold">Your Premium Entry Code</span>
+                <span id="ticket-number" class="text-2xl font-mono font-bold text-blue-700">VTX-8291-7290</span>
+            </div>
+
+            <!-- Urgent Proof Warning -->
+            <div class="bg-red-50 border border-red-100 rounded-xl p-3 mb-6 text-left">
+                <p class="text-[11px] text-red-700 leading-relaxed font-bold">
+                    ⚠️ <strong class="uppercase">Crucial Step:</strong> Take a screenshot of this page immediately and share it in our designated WhatsApp group as confirmation proof. Unconfirmed tickets are discarded automatically!
+                </p>
+            </div>
+
+            <button onclick="closeSuccess()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition active:scale-95">
+                Return to Portal Home
+            </button>
+        </div>
+    </div>
+
+    <!-- Active Programmatic Control System -->
+    <script>
+        // Track client completed statuses
+        let stepCompleted = {
+            1: false,
+            2: false,
+            3: false,
+            4: false
+        };
+
+        // Complete step tracker function (Insert your direct monetag links below)
+        function startStep(stepNum) {
+            let monetagLinks = {
+                1: "https://example.com/direct-link-1", // Replace with your Monetag Direct Link 1
+                2: "https://example.com/direct-link-2", // Replace with your Monetag Direct Link 2
+                3: "https://example.com/direct-link-3", // Replace with your Monetag Direct Link 3
+                4: "https://example.com/direct-link-4"  // Replace with your Monetag Direct Link 4
+            };
+
+            // Trigger click simulation / Redirect inside standard window container safe link
+            window.open(monetagLinks[stepNum], '_blank');
+
+            let btn = document.getElementById(`step-btn-${stepNum}`);
+            let status = document.getElementById(`step-status-${stepNum}`);
+            let seconds = 10;
+
+            btn.disabled = true;
+            btn.classList.add('cursor-not-allowed');
+
+            let countdown = setInterval(() => {
+                btn.innerHTML = `<span>Verifying Token... (${seconds}s)</span>`;
+                seconds--;
+
+                if (seconds < 0) {
+                    clearInterval(countdown);
+                    
+                    // Mark state as validated and complete
+                    stepCompleted[stepNum] = true;
+                    btn.innerHTML = `<span>VERIFIED ✓</span>`;
+                    btn.className = "w-full py-3 bg-green-500 text-slate-950 font-extrabold rounded-xl cursor-default flex items-center justify-center gap-2";
+                    status.innerHTML = "VERIFIED";
+                    status.className = "text-[10px] bg-green-100 text-green-800 border border-green-200 px-2.5 py-0.5 rounded-full font-bold";
+
+                    // Update UI steps system
+                    updateProgress();
+                    unlockNextStep(stepNum + 1);
+                }
+            }, 1000);
+        }
+
+        // Handles unlocking state progression securely
+        function unlockNextStep(nextStepNum) {
+            if (nextStepNum <= 4) {
+                let container = document.getElementById(`step-container-${nextStepNum}`);
+                let btn = document.getElementById(`step-btn-${nextStepNum}`);
+                let status = document.getElementById(`step-status-${nextStepNum}`);
+
+                container.classList.remove('step-locked');
+                status.innerHTML = "READY TO CLAIM";
+                status.className = "text-[10px] bg-blue-100 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-full font-bold";
+
+                btn.disabled = false;
+                btn.classList.remove('cursor-not-allowed', 'bg-slate-200', 'text-slate-400');
+                btn.className = "w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/15 transition active:scale-[0.98] duration-150 flex items-center justify-center gap-2";
+                btn.innerHTML = `<span>CLAIM TICKET 0${nextStepNum}</span>`;
+            } else {
+                // If all 4 tasks are complete, unlock submission form access point
+                document.getElementById('submit-ticket-btn').classList.remove('hidden');
+            }
+        }
+
+        // Smoothly adjust progress bars on step accomplishments
+        function updateProgress() {
+            let totalCompleted = Object.values(stepCompleted).filter(Boolean).length;
+            let percentage = totalCompleted * 25;
+            
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').innerText = `${percentage}% Complete`;
+        }
+
+        // Control layout modal displays
+        function openFormModal() {
+            document.getElementById('form-modal').classList.remove('hidden');
+        }
+
+        // Final payload submission simulation without unsafe alerts
+        function submitFinalForm() {
+            let name = document.getElementById('user-name').value.trim();
+            let phone = document.getElementById('user-phone').value.trim();
+            let alertBox = document.getElementById('error-alert');
+
+            if (name === "" || phone === "") {
+                // Display beautiful integrated inline alert panel instead of popup alert()
+                alertBox.classList.remove('hidden');
+                return;
+            }
+
+            // Hide alert box on successful input
+            alertBox.classList.add('hidden');
+
+            // Format random high conversion ticket layout
+            let randomCode = "VTX-" + Math.floor(1000 + Math.random() * 9000) + "-" + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('ticket-number').innerHTML = randomCode;
+
+            document.getElementById('form-modal').classList.add('hidden');
+            document.getElementById('success-modal').classList.remove('hidden');
+        }
+
+        // Reload clean session values
+        function closeSuccess() {
+            document.getElementById('success-modal').classList.add('hidden');
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
+
